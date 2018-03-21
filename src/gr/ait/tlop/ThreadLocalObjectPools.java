@@ -7,7 +7,8 @@
 package gr.ait.tlop;
 
 /**
- *
+ * helper access class for initializing and accessing 
+ * <CODE>ThreadLocalObjectPool</CODE>'s.
  * @author itc
  */
 public final class ThreadLocalObjectPools {

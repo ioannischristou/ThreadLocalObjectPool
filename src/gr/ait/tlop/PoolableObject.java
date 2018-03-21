@@ -37,8 +37,8 @@ public abstract class PoolableObject implements Serializable {
     
     /**
      * protected constructor specifying that the constructed object is "part"
-     * of the given pool. Sub-classes will need to call <
-     * CODE>super(null);</CODE> in their constructors for "unmanaged" objects,
+     * of the given pool. Sub-classes will need to call 
+     * <CODE>super(null);</CODE> in their constructors for "unmanaged" objects,
      * and <CODE>super(pool);</CODE> in the constructors for "managed" objects,
      * that will have a pool argument as well.
      * @param pool the pool by which the constructed object is "managed".

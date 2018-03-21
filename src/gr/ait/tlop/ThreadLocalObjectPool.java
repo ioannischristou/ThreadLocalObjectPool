@@ -10,7 +10,8 @@ import java.io.Serializable;  // may be needed if classes extending PoolableObje
                               // must be transported over the network
 
 /**
- *
+ * encapsulates thread-local object pools, of objects that extend the 
+ * <CODE>PoolableObject</CODE> class.
  * @author itc
  */
 public final class ThreadLocalObjectPool<T extends PoolableObject> implements Serializable {

@@ -4,15 +4,16 @@
  * and open the template in the editor.
  */
 
-import gr.ait.tlop.*;
+package gr.ait.tlop;
 
 
 /**
- *
+ * Test of the Thread-Local Object Pool functionality, via the Profiler facility
+ * of the NetBeans IDE. 
  * @author itc
  */
-public class DLPairTest {
-    static boolean _USE_POOLS = false;
+public class DLPTest {
+    static boolean _USE_POOLS = true;
     
     /**
      * args are: [total_num_objs(800,000,000)] [num_threads(8)] [do_pools(true)]
@@ -53,6 +54,34 @@ public class DLPairTest {
     }
 }
 
+class DLPair extends PoolableObject {
+    private long _id;
+    private double _val;
+    
+    public DLPair(long id, double val) {
+        super(null);
+        _id = id;
+        _val = val;
+    }
+    
+    public DLPair(ThreadLocalObjectPool<DLPair> pool) {
+        super(pool);
+    }
+    
+    public void setData(Object... args) {
+        if (args==null) return;  // guard against null var-args
+        _id = ((Long) args[0]).longValue();
+        _val = ((Double) args[1]).doubleValue();
+    }
+    
+    public void setData(long id, double val) {
+        _id = id;
+        _val = val;
+    }
+    
+    double getVal() { return _val; }
+}
+
 class DLPairFactory implements PoolableObjectFactory<DLPair> {
     public DLPair createObject(Object... args) {
         return new DLPair(null);
@@ -83,7 +112,7 @@ class DLPThread extends Thread {
         final long up_to = _offset+_numObjs;
         for (long i=_offset; i<up_to; i++) {
             DLPair pi = null;
-            if (DLPairTest._USE_POOLS) 
+            if (DLPTest._USE_POOLS) 
                 pi = PoolableObject.newInstance(_f, null);
             else pi = new DLPair(0,0);
             //pi.setData(i, Math.pow(i, 2.0));
@@ -91,7 +120,7 @@ class DLPThread extends Thread {
             _sum += pi.getVal();
             pis[ind++] = pi;
             if (ind == pis.length) {
-                if (DLPairTest._USE_POOLS) {
+                if (DLPTest._USE_POOLS) {
                     for (int j=0; j<pis.length; j++) {
                         pis[j].release();
                     }
